@@ -116,7 +116,7 @@ func FetchUsers(w http.ResponseWriter, r *http.Request) {
 	//The below is a superfluous block to verify how contexts work
 	userFromCtx := r.Context().Value("user")
 	structFromCtx, _:= json.Marshal(userFromCtx)
-	fmt.Println("From FetchUsers(): ")
+	fmt.Println("\nFrom FetchUsers(): ")
 	fmt.Println(string(structFromCtx))
 
 }

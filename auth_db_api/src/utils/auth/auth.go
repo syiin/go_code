@@ -30,9 +30,12 @@ func JwtVerify(next http.Handler) http.Handler {
 			return
 		}
 		tk := &models.Token{}
+		out, _ := json.Marshal(tk) 
+		fmt.Println("\nBefore tk was populated: ")
+		fmt.Println(string(out))
+
 		keyFunc := func(token *jwt.Token) (interface{}, error) {
 					return []byte("secret"), nil }
-
 		reconstructed, err := jwt.ParseWithClaims(header, tk, keyFunc)
 		if err != nil {
 			w.WriteHeader(http.StatusForbidden)
@@ -41,8 +44,12 @@ func JwtVerify(next http.Handler) http.Handler {
 		}
 
 		//just to visualise the return struct
-		out, _ := json.Marshal(reconstructed) 
-		fmt.Println("From JwtVerify(): ")
+		out, _ = json.Marshal(reconstructed) 
+		fmt.Println("\nFrom JwtVerify(): ")
+		fmt.Println(string(out))
+		//notice that tk has been populated by ParseWithClaims()
+		out, _ = json.Marshal(tk) 
+		fmt.Println("\nFrom tk populated with: ")
 		fmt.Println(string(out))
 
 		//a context is an interface, an interface is a description of method 
