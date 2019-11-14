@@ -110,16 +110,27 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 func FetchUsers(w http.ResponseWriter, r *http.Request) {
 	var users []models.Admin
 	db.Table("admins").Preload("auths").Find(&users)
-
 	json.NewEncoder(w).Encode(users)
+
+
+	//The below is a superfluous block to verify how contexts work
+	userFromCtx := r.Context().Value("user")
+	structFromCtx, _:= json.Marshal(userFromCtx)
+	fmt.Println("From FetchUsers(): ")
+	fmt.Println(string(structFromCtx))
+
 }
 
 func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	user := &models.Admin{}
+	//get the id from params
 	params := mux.Vars(r)
 	var id = params["id"]
+	//query database for user matching the id and fill the user struct
 	db.Table("admins").First(&user, id)
+	//decode the body and replace the altered fields in the user struct
 	json.NewDecoder(r.Body).Decode(user)
+	//save the modified user struct to the table
 	db.Table("admins").Save(&user)
 	json.NewEncoder(w).Encode(&user)
 }

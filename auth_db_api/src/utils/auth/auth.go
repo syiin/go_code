@@ -42,6 +42,7 @@ func JwtVerify(next http.Handler) http.Handler {
 
 		//just to visualise the return struct
 		out, _ := json.Marshal(reconstructed) 
+		fmt.Println("From JwtVerify(): ")
 		fmt.Println(string(out))
 
 		//a context is an interface, an interface is a description of method 
