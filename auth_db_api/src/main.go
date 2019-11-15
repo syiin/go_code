@@ -1,11 +1,11 @@
 package main
 
 import (
-	"routes"
 	"fmt"
 	"log"
 	"net/http"
 	"os"
+	"routes"
 
 	"github.com/joho/godotenv"
 )

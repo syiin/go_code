@@ -2,9 +2,9 @@ package routes
 
 import (
 	"controllers"
-	"utils/auth"
-	"net/http"
 	"github.com/gorilla/mux"
+	"net/http"
+	"utils/auth"
 )
 
 func Handlers() *mux.Router {
@@ -28,6 +28,8 @@ func Handlers() *mux.Router {
 	s.HandleFunc("/user/{id}", controllers.GetUser).Methods("GET")
 	s.HandleFunc("/user/{id}", controllers.UpdateUser).Methods("PUT")
 	s.HandleFunc("/user/{id}", controllers.DeleteUser).Methods("DELETE")
+	// Transaction routes
+	s.HandleFunc("/transactions/", controllers.FetchTransactions).Methods("GET")
 	return r
 }
 

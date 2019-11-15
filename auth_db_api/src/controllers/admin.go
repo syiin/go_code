@@ -1,12 +1,12 @@
 package controllers
 
 import (
-	"models"
-	"utils"
 	"encoding/json"
 	"fmt"
+	"models"
 	"net/http"
 	"time"
+	"utils"
 
 	jwt "github.com/dgrijalva/jwt-go"
 	"github.com/gorilla/mux"
@@ -115,7 +115,7 @@ func FetchUsers(w http.ResponseWriter, r *http.Request) {
 
 	//The below is a superfluous block to verify how contexts work
 	userFromCtx := r.Context().Value("user")
-	structFromCtx, _:= json.Marshal(userFromCtx)
+	structFromCtx, _ := json.Marshal(userFromCtx)
 	fmt.Println("\nFrom FetchUsers(): ")
 	fmt.Println(string(structFromCtx))
 
