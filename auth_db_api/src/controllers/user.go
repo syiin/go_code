@@ -109,9 +109,9 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 //FetchUser function
 func FetchUsers(w http.ResponseWriter, r *http.Request) {
 	var users []models.Admin
-	db.Table("admins").Preload("auths").Find(&users)
+	db.Table("admins").Find(&users)
+	// db.Table("admins").Preload("auths").Find(&users)
 	json.NewEncoder(w).Encode(users)
-
 
 	//The below is a superfluous block to verify how contexts work
 	userFromCtx := r.Context().Value("user")
