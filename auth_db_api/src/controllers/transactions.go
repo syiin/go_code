@@ -3,6 +3,7 @@ package controllers
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/gorilla/mux"
 	"models"
 	"net/http"
 )
@@ -18,7 +19,25 @@ func CreateTransaction(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(err)
 	}
 	json.NewEncoder(w).Encode(createdTrans)
+}
 
+func DeleteTransaction(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	var id = params["id"]
+	var trans models.Transaction
+	db.Table("transactions").First(&trans, id)
+	db.Table("transactions").Delete(&trans)
+	json.NewEncoder(w).Encode("Transaction deleted")
+}
+
+func UpdateTransaction(w http.ResponseWriter, r *http.Request) {
+	trans := &models.Transaction{}
+	params := mux.Vars(r)
+	var id = params["id"]
+	db.Table("transactions").First(&trans, id)
+	json.NewDecoder(r.Body).Decode(trans)
+	db.Table("transactions").Save(&trans)
+	json.NewEncoder(w).Encode(&trans)
 }
 
 func FetchTransactions(w http.ResponseWriter, r *http.Request) {

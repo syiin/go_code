@@ -33,6 +33,8 @@ func Handlers() *mux.Router {
 	t := r.PathPrefix("/api").Subrouter()
 	t.Use(auth.JwtVerify)
 	t.HandleFunc("/transactions", controllers.CreateTransaction).Methods("POST")
+	t.HandleFunc("/transactions/{id}", controllers.DeleteTransaction).Methods("DELETE")
+	t.HandleFunc("/transactions/{id}", controllers.UpdateTransaction).Methods("PUT")
 	t.HandleFunc("/transactions", controllers.FetchTransactions).Methods("GET")
 	return r
 }
