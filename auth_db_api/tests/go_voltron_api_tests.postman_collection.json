@@ -1,0 +1,193 @@
+{
+	"info": {
+		"_postman_id": "52fcae27-e5b2-40dd-ad39-15cc6ef91b81",
+		"name": "go_voltron_api_tests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "/register",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "39d00357-bd57-478f-92a6-f517fec64cf7",
+						"exec": [
+							"pm.test(\"Registers successfully and returns user details\", function() {",
+							"    var jsonData = pm.response.json()",
+							"    pm.expect(jsonData[\"Value\"][\"Email\"]).to.eql(\"admin@propertypricetag.com\")",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Email\": \"admin@propertypricetag.com\",\n\t\"Password\": \"password\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/register",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "76817618-84fa-407c-a651-6f80cb387208",
+						"exec": [
+							"pm.test(\"Login successfully with the correct credentials\", function() {",
+							"    var jsonData = pm.response.json()",
+							"    pm.expect(jsonData[\"user\"][\"Email\"]).to.eql(\"admin@propertypricetag.com\")",
+							"    ",
+							"    pm.environment.set(\"access_token\", jsonData[\"token\"]);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Email\": \"admin@propertypricetag.com\",\n\t\"Password\": \"password\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/login",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/auth/user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5413528a-536d-4c62-8b23-fdb86e740c6e",
+						"exec": [
+							"pm.test(\"Check that default admin is present\", function() {",
+							"    var jsonData = pm.response.json()",
+							"    pm.expect(jsonData[0][\"Email\"]).to.eql(\"admin@propertypricetag.com\")",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "x-access-token",
+						"value": "{{access_token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:8080/auth/user",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"auth",
+						"user"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "35e0c9f2-b284-452e-b0e9-a847152028d6",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "e1ccf379-8d0e-4fd2-bb28-871cda96bb3f",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "4202adef-5ef8-4bd6-944f-6e3ab2d6bf4a",
+			"key": "access_token",
+			"value": null,
+			"type": "any"
+		}
+	],
+	"protocolProfileBehavior": {}
+}
