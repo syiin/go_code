@@ -1,10 +1,10 @@
 package auth
 
 import (
-	"models"
 	"context"
 	"encoding/json"
 	"fmt"
+	"models"
 	"net/http"
 	"strings"
 
@@ -21,21 +21,24 @@ func JwtVerify(next http.Handler) http.Handler {
 		//2. Create a key function to get the key
 		//3. Get the Claim used to sign the token string
 		//4. Give all 3 to the Parser to validate
-		var header = r.Header.Get("x-access-token") 
+
+		//GET TOKEN
+		var header = r.Header.Get("x-access-token")
 		header = strings.TrimSpace(header)
 		if header == "" {
-			//Token is missing, returns with error code 403 Unauthorized
 			w.WriteHeader(http.StatusForbidden)
 			json.NewEncoder(w).Encode(Exception{Message: "Missing auth token"})
 			return
 		}
+		//GET CLAIM
 		tk := &models.Token{}
-		out, _ := json.Marshal(tk) 
+		out, _ := json.Marshal(tk)
 		fmt.Println("\nBefore tk was populated: ")
 		fmt.Println(string(out))
-
+		//DEFINE KEY FUNCTION
 		keyFunc := func(token *jwt.Token) (interface{}, error) {
-					return []byte("secret"), nil }
+			return []byte("secret"), nil
+		}
 		reconstructed, err := jwt.ParseWithClaims(header, tk, keyFunc)
 		if err != nil {
 			w.WriteHeader(http.StatusForbidden)
@@ -44,15 +47,15 @@ func JwtVerify(next http.Handler) http.Handler {
 		}
 
 		//just to visualise the return struct
-		out, _ = json.Marshal(reconstructed) 
+		out, _ = json.Marshal(reconstructed)
 		fmt.Println("\nFrom JwtVerify(): ")
 		fmt.Println(string(out))
 		//notice that tk has been populated by ParseWithClaims()
-		out, _ = json.Marshal(tk) 
+		out, _ = json.Marshal(tk)
 		fmt.Println("\nFrom tk populated with: ")
 		fmt.Println(string(out))
 
-		//a context is an interface, an interface is a description of method 
+		//a context is an interface, an interface is a description of method
 		//signatures an object can have
 		//contexts define boundaries in the program (eg. stopping, channels)
 		//"user" is the key - WithValue() takes a context and creates a derivative

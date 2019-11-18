@@ -7,8 +7,22 @@ import (
 	"net/http"
 )
 
+func CreateTransaction(w http.ResponseWriter, r *http.Request) {
+	transaction := &models.Transaction{}
+	json.NewDecoder(r.Body).Decode(transaction)
+	fmt.Println(transaction)
+	createdTrans := db.Table("transactions").Create(transaction)
+
+	var err = createdTrans.Error
+	if createdTrans.Error != nil {
+		fmt.Println(err)
+	}
+	json.NewEncoder(w).Encode(createdTrans)
+
+}
+
 func FetchTransactions(w http.ResponseWriter, r *http.Request) {
-	var transactions []models.Transactions
+	var transactions []models.Transaction
 	db.Table("transactions").Limit(10).Find(&transactions)
 	json.NewEncoder(w).Encode(transactions)
 
