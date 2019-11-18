@@ -422,6 +422,62 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "/transactions/",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5413528a-536d-4c62-8b23-fdb86e740c6e",
+						"exec": [
+							"pm.test(\"Check that we get back the correct transaction record\", function() {",
+							"    var jsonData = pm.response.json()",
+							"    pm.expect(jsonData[\"Address\"]).to.eql(\"123 Jalan Lalaland\")",
+							"    pm.expect(jsonData[\"County\"]).to.eql(\"ULU OVER HERE\")",
+							"    pm.expect(jsonData[\"District\"]).to.eql(\"MUKIM NOT THERE\")",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "x-access-token",
+						"type": "text",
+						"value": "{{access_token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:8080/api/transactions/{{test_trans_id}}",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"transactions",
+						"{{test_trans_id}}"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"event": [
@@ -448,7 +504,7 @@
 	],
 	"variable": [
 		{
-			"id": "f01f3cd6-5f46-4ea7-85de-9578b4195906",
+			"id": "5a46cde2-a946-4b28-b87b-f32eddfd205c",
 			"key": "access_token",
 			"value": null,
 			"type": "any"

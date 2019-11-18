@@ -21,6 +21,14 @@ func CreateTransaction(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(createdTrans)
 }
 
+func GetTransaction(w http.ResponseWriter, r *http.Request) {
+	trans := &models.Transaction{}
+	params := mux.Vars(r)
+	var id = params["id"]
+	db.Table("transactions").First(&trans, id)
+	json.NewEncoder(w).Encode(&trans)
+}
+
 func DeleteTransaction(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	var id = params["id"]
