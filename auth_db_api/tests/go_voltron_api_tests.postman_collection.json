@@ -157,6 +157,109 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "/transactions/",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5413528a-536d-4c62-8b23-fdb86e740c6e",
+						"exec": [
+							"pm.test(\"Check that we get back the expected number of transactions\", function() {",
+							"    var jsonData = pm.response.json()",
+							"    pm.expect(jsonData.length).to.eql(10)",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "x-access-token",
+						"type": "text",
+						"value": "{{access_token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:8080/api/transactions",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"transactions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/transactions/",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5413528a-536d-4c62-8b23-fdb86e740c6e",
+						"exec": [
+							"// pm.test(\"Check that we get back the expected number of transactions\", function() {",
+							"//     var jsonData = pm.response.json()",
+							"//     pm.expect(jsonData.length).to.eql(10)",
+							"// })"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "x-access-token",
+						"type": "text",
+						"value": "{{access_token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Address\": \"123 Jalan 456\",\n\t\"Area\": \"Taman Somewhere\",\n\t\"Price\": 123456\n}\n"
+				},
+				"url": {
+					"raw": "localhost:8080/api/transactions",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"transactions"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"event": [
@@ -183,7 +286,7 @@
 	],
 	"variable": [
 		{
-			"id": "4202adef-5ef8-4bd6-944f-6e3ab2d6bf4a",
+			"id": "a380b5f0-c32c-4a9d-a1e1-507d8d58cdd2",
 			"key": "access_token",
 			"value": null,
 			"type": "any"
