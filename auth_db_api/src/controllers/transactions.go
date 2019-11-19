@@ -29,15 +29,6 @@ func GetTransaction(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(&trans)
 }
 
-func DeleteTransaction(w http.ResponseWriter, r *http.Request) {
-	params := mux.Vars(r)
-	var id = params["id"]
-	var trans models.Transaction
-	db.Table("transactions").First(&trans, id)
-	db.Table("transactions").Delete(&trans)
-	json.NewEncoder(w).Encode("Transaction deleted")
-}
-
 func UpdateTransaction(w http.ResponseWriter, r *http.Request) {
 	trans := &models.Transaction{}
 	params := mux.Vars(r)
@@ -46,6 +37,15 @@ func UpdateTransaction(w http.ResponseWriter, r *http.Request) {
 	json.NewDecoder(r.Body).Decode(trans)
 	db.Table("transactions").Save(&trans)
 	json.NewEncoder(w).Encode(&trans)
+}
+
+func DeleteTransaction(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	var id = params["id"]
+	var trans models.Transaction
+	db.Table("transactions").First(&trans, id)
+	db.Table("transactions").Delete(&trans)
+	json.NewEncoder(w).Encode("Transaction deleted")
 }
 
 func FetchTransactions(w http.ResponseWriter, r *http.Request) {
@@ -58,4 +58,15 @@ func FetchTransactions(w http.ResponseWriter, r *http.Request) {
 	structFromCtx, _ := json.Marshal(transCtx)
 	fmt.Println("\nFrom FetchUsers(): ")
 	fmt.Println(string(structFromCtx))
+}
+
+func GetTransByField(w http.ResponseWriter, r *http.Request) {
+	var transactions []models.Transaction
+
+	query := &models.Transaction{}
+	json.NewDecoder(r.Body).Decode(query)
+	fmt.Println(query)
+
+	db.Table("transactions").Find(&transactions, query)
+	json.NewEncoder(w).Encode(transactions)
 }
