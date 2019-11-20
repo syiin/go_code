@@ -37,7 +37,7 @@ func Handlers() *mux.Router {
 	t.HandleFunc("/transactions/{id}", controllers.UpdateTransaction).Methods("PUT")
 	t.HandleFunc("/transactions/{id}", controllers.DeleteTransaction).Methods("DELETE")
 	t.HandleFunc("/transactions", controllers.FetchTransactions).Methods("GET")
-	t.HandleFunc("/transactions/search/{id}", controllers.GetTransByField).Methods("GET")
+	t.HandleFunc("/transactions/search/", controllers.GetTransByField).Methods("GET")
 	return r
 }
 
